@@ -22,7 +22,7 @@
 -- ============================================================
 
 -- MÓDULO 1: Aeronaves y Flota
--- Agregar aquí scripts (tables, constraints, index etc.) en el orden que deben ejectuarse
+-- Agregar aquí scripts (tables, constraints, index etc.) en el orden que deben ejecutarse
 -- :r modules/module1_aircraft_fleet/definitions/tables/tbl_aircraft.sql
 
 -- MÓDULO 2: Rutas y Programación
@@ -36,7 +36,7 @@
 -- MÓDULO 4: Tripulación y Asignaciones
 -- :r modules/module4_crew_assignments/definitions/tables/tbl_crew_members.sql
 
--- MÓDULO 5: Check-in and Operations
+-- MÓDULO 5: Check-in y Operaciones
 -- :r modules/module5_checkin_operations/definitions/tables/tbl_check_ins.sql
 
 -- ============================================================
