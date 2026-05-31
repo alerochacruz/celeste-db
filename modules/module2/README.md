@@ -20,6 +20,11 @@ Dependencias:
 - `flight_schedules` probablemente necesita la tabla `aircraft_types` del Módulo 1.
 - `flight_instances` probablemente necesita la tabla `aircrafts` del Módulo 1.
 
+Referencia para armar `flight_schedules`:
+
+- [Flight Schedule - Lao Airlines Official Website](https://laoairlines.com/en/flight-schedule/)
+- [Fleet Information - Lao Airlines Official Website](https://laoairlines.com/en/fleet-information/)
+
 ## Recursos
 
 Librerías de Python:
