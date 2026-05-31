@@ -1,0 +1,2 @@
+CREATE LOGIN datear WITH PASSWORD = 'Strong!Pass123';
+GO

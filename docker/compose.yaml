@@ -1,0 +1,21 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-express
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: ${ACCEPT_EULA}
+      SA_PASSWORD: ${SA_PASSWORD}
+      MSSQL_PID: ${MSSQL_PID}
+    restart: unless-stopped
+
+# Referencia: comando original de Docker
+# docker run \
+#   -e 'ACCEPT_EULA=Y' \
+#   -e 'SA_PASSWORD=YourStrong!Passw0rd' \
+#   -e 'MSSQL_PID=Express' \
+#   -p 1433:1433 \
+#   --name sqlserver-express \
+#   -d \
+#   mcr.microsoft.com/mssql/server:2022-latest

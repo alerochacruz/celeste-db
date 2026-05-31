@@ -1,0 +1,69 @@
+# ==========================================
+# 1. Configuración local y secretos
+# ==========================================
+docker/.env
+.env
+*.env.local
+
+# ==========================================
+# 2. Docker y persistencia de datos local
+# ==========================================
+docker/data/
+docker/log/
+docker/secrets/
+
+# ==========================================
+# 3. Herramientas de Bases de Datos e IDEs
+# ==========================================
+# Azure Data Studio / VS Code (Común en todos los OS)
+.vscode/
+*.code-workspace
+.sqlproj/
+
+# SQL Server Management Studio (SSMS - Exclusivo de Windows)
+*.ssmssln
+*.ssmssqlproj
+*.user
+*.suo
+App.config
+
+# JetBrains / DataGrip (Común en Linux/macOS)
+.idea/
+
+# DBeaver (Muy usado en Linux y macOS para SQL Server)
+.dbeaver/
+*.containertags
+
+# ==========================================
+# 4. Archivos de Sistemas Operativos (Multi-OS)
+# ==========================================
+# macOS (El clásico dolor de cabeza de los .DS_Store)
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux (Fedora / Ubuntu)
+*~
+.fuse_hidden*
+.directory
+.trash/
+
+# ==========================================
+# 5. Respaldos y Temporales
+# ==========================================
+*.bak
+*.bak.*
+*.tmp
+*.sql.log
