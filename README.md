@@ -71,38 +71,38 @@ docker compose down
 
 ```
 celeste-db/
-├── docker
+├── docker/
 │   ├── compose.yaml
-│   └── init
+│   └── init/
 │       ├── create_database.sql
 │       ├── create_login.sql
 │       └── create_user.sql
-├── docs
+├── docs/
 ├── master_deploy.sql
-├── modules
-│   └── module2
-│       ├── definitions
-│       │   ├── constraints
-│       │   ├── indexes
-│       │   └── tables
+├── modules/
+│   └── module2/
+│       ├── definitions/
+│       │   ├── constraints/
+│       │   ├── indexes/
+│       │   └── tables/
 │       │       ├── tbl_airports.sql
 │       │       ├── tbl_routes.sql
 │       │       └── tbl_terminals.sql
-│       ├── functions
-│       ├── procedures
+│       ├── functions/
+│       ├── procedures/
 │       ├── README.md
-│       ├── seeds
-│       │   ├── csv
+│       ├── seeds/
+│       │   ├── csv/
 │       │   │   ├── seed_airports.csv
 │       │   │   ├── seed_routes.csv
 │       │   │   └── seed_terminals.csv
-│       │   └── sql
+│       │   └── sql/
 │       │       ├── seed_airports.sql
 │       │       ├── seed_routes.sql
 │       │       └── seed_terminals.sql
-│       ├── tests
-│       ├── triggers
-│       └── views
+│       ├── tests/
+│       ├── triggers/
+│       └── views/
 └── README.md
 ```
 
