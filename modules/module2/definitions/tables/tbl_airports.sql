@@ -1,4 +1,3 @@
--- airports
 CREATE TABLE airports (
     id CHAR(3) NOT NULL, --IATA code
     name VARCHAR(50) NOT NULL,
@@ -9,4 +8,3 @@ CREATE TABLE airports (
     CONSTRAINT PK_airports PRIMARY KEY (id),
     CONSTRAINT CK_airports_country_code CHECK (country_code LIKE '[A-Z][A-Z]')
 );
-

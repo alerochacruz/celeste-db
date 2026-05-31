@@ -1,4 +1,3 @@
--- terminals
 CREATE TABLE terminals (
     id INT IDENTITY(1,1) NOT NULL,
     airport_id CHAR(3) NOT NULL, 
@@ -9,4 +8,3 @@ CREATE TABLE terminals (
         FOREIGN KEY (airport_id) REFERENCES airports(id)
         ON DELETE CASCADE 
 );
-

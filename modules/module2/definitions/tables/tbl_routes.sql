@@ -5,7 +5,7 @@ CREATE TABLE routes (
     -- distance_km SMALLINT       NULL,       -- useful for pricing/fuel in later modules
     distance_km DECIMAL(8,2) NULL,   -- precise storage for CSV decimals
 
-    flight_time_minutes SMALLINT NOT NULL, -- from your flight_times.csv
+    flight_time_minutes SMALLINT NOT NULL,
     is_active   BIT            NOT NULL DEFAULT 1,
 
     CONSTRAINT PK_routes PRIMARY KEY (id),
