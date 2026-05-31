@@ -6,6 +6,10 @@
 2. `terminals`
 3. `routes`
 
+### Tabla `airports`
+
+El campo `id` (*primary key*) de la tabla `airports` contiene el [código de aeropuertos de IATA](https://es.wikipedia.org/wiki/C%C3%B3digo_de_aeropuertos_de_IATA).
+
 ## TO-DO
 
 - `flight_schedules`
