@@ -56,10 +56,10 @@ Cada uno de los parámetros (o banderas) cumple una función específica para es
 - [Edit SQLCMD Scripts with Query Editor - SQL Server Management Studio | Microsoft Learn](https://learn.microsoft.com/en-us/ssms/scripting/sqlcmd-scripts-query-editor)
 - [Download and Install the sqlcmd Utility - SQL Server | Microsoft Learn](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-download-install)
 - [Just bumped into the new Go-based `sqlcmd` - why not C#? : r/dotnet](https://www.reddit.com/r/dotnet/comments/1tp31un/just_bumped_into_the_new_gobased_sqlcmd_why_not_c/)
-- [Old Name - New CLI - why you should take a look at sqlcmd - YouTube](https://www.youtube.com/watch?v=xCiLrPHmjkw)
+- [What does a modern command line look like for sqlcmd/bcp? · microsoft/go-sqlcmd · Discussion #113](https://github.com/microsoft/go-sqlcmd/discussions/113)
 
 **Videos**
 
 - [What is go-sqlcmd? - YouTube](https://www.youtube.com/watch?v=4CPdFs74Pkg)
 - [Quickly creating containers with the new, open-source SQLCMD | Data Exposed: MVP Edition - YouTube](https://www.youtube.com/watch?v=MlA1dAeE91A)
-- [What does a modern command line look like for sqlcmd/bcp? · microsoft/go-sqlcmd · Discussion #113](https://github.com/microsoft/go-sqlcmd/discussions/113)
+- [Old Name - New CLI - why you should take a look at sqlcmd - YouTube](https://www.youtube.com/watch?v=xCiLrPHmjkw)
