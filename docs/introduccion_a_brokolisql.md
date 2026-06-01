@@ -35,7 +35,7 @@ En el ciclo de desarrollo de un proyeco de base de datos, contar con datos de pr
 
 ## Anatomía de un comando BrokoliSQL: generación de scripts
 
-Para transformar los datos fuente en un script de base de datos compatible con el entorno de desarrollo, se utiliza la interfaz de línea de comandos de la utilidad. A continuación, se analiza la estructura de un comando estándar para procesar información de infraestructura:
+El siguiente comando de `brokolisql` transforma el archivo `seed_airports.csv` —el cual contiene columnas como `id`, `name` y `country`— en un script de base de datos compatible con SQL Server:
 
 ```bash
 brokolisql \
@@ -46,7 +46,7 @@ brokolisql \
   --batch-size 100
 ```
 
-Cada parámetro (o bandera) define una regla de transformación e ingeniería de datos específica:
+Cada parámetro (o bandera) define una regla específica para la conversión del archivo CSV:
 
 - **`--input seed_airports.csv`:** Especifica el archivo origen que contiene los datos en bruto. En este escenario, corresponde a un archivo de texto plano con formato de valores separados por comas (CSV).
 - **`--output tbl_airports.sql`:** Determina el nombre y la ruta del archivo de salida que generará la herramienta. El resultado será un script de texto con extensión `.sql` listo para ser procesado por `sqlcmd`.
