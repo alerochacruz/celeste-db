@@ -8,7 +8,7 @@ A diferencia de los enfoques tradicionales de virtualización, Docker comparte e
 
 ## Relevancia en entornos de desarrollo heterogéneos
 
-En un equipo de desarrollo donde coexisten sistemas operativos como Fedora 42, Ubuntu 24.04, macOS y Windows 11, Docker actúa como una capa de estandarización crítica que elimina el problema del sesgo de entorno ("funciona en mi máquina"). Su relevancia radica en los siguientes puntos:
+En un equipo de desarrollo donde coexisten sistemas operativos como Fedora, Ubuntu, macOS y Windows, Docker actúa como una capa de estandarización crítica que elimina el problema del sesgo de entorno ("funciona en mi máquina"). Su relevancia radica en los siguientes puntos:
 
 - **Consistencia absoluta:** Permite que la instancia de SQL Server 2022 Express se ejecute exactamente bajo la misma configuración, arquitectura de archivos y comportamiento en cualquiera de las plataformas utilizadas por los desarrolladores.
 - **Aislamiento del Host:** Evita la necesidad de instalar dependencias pesadas o servicios locales del motor de base de datos directamente en el sistema operativo anfitrión, manteniendo los sistemas limpios y libres de conflictos de puertos o versiones.
