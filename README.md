@@ -78,6 +78,8 @@ celeste-db/
 │       ├── create_login.sql
 │       └── create_user.sql
 ├── docs/
+│   ├── introduccion_a_docker.md
+│   └── introduccion_a_sqlcmd.md
 ├── master_deploy.sql
 ├── modules/
 │   └── module2/
