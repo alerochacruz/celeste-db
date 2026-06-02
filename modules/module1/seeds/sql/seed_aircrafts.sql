@@ -1,0 +1,13 @@
+INSERT INTO aircrafts (registration_number, aircraft_type_id, seat_config_id, current_status_id)
+VALUES
+    ('RDPL-34188', 1, 1, 1),
+    ('RDPL-34199', 1, 1, 1),
+    ('RDPL-34223', 1, 2, 1),
+    ('RDPL-34224', 1, 2, 1),
+    ('RDPL-34173', 2, 3, 1),
+    ('RDPL-34174', 2, 3, 1),
+    ('RDPL-34175', 2, 3, 1),
+    ('RDPL-34176', 2, 3, 1),
+    ('RDPL-34222', 3, 4, 1),
+    ('RDPL-34225', 3, 4, 1),
+    ('RDPL-34228', 3, 4, 1);

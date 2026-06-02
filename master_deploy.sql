@@ -46,6 +46,12 @@
 -- II. Seed Data (CSV imports or SQL inserts)
 -- ============================================================
 
+-- MÓDULO 1 Seeds
+:r modules/module1/seeds/sql/seed_maintenace_status.sql
+:r modules/module1/seeds/sql/seed_aircraft_types.sql
+:r modules/module1/seeds/sql/seed_seat_configurations.sql
+:r modules/module1/seeds/sql/seed_aircrafts.sql
+
 -- MÓDULO 2 Seeds
 :r modules/module2/seeds/sql/seed_airports.sql
 :r modules/module2/seeds/sql/seed_terminals.sql
@@ -56,6 +62,9 @@
 -- ============================================================
 -- III. Business Logic (functions, procedures, triggers, views)
 -- ============================================================
+
+-- MÓDULO 1 Views
+:r modules/module1/views/vw_operative_fleet.sql
 
 -- MÓDULO 2 Functions/Procedures
 -- :r modules/module2_routes_schedule/functions/fn_calculate_distance.sql
