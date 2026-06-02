@@ -40,7 +40,7 @@ El siguiente comando de `brokolisql` transforma el archivo `seed_airports.csv` â
 ```bash
 brokolisql \
   --input seed_airports.csv \
-  --output tbl_airports.sql \
+  --output seed_airports.sql \
   --table airports \
   --dialect mssql \
   --batch-size 100
