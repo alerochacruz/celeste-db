@@ -1,4 +1,4 @@
-INSERT INTO airports ([ID], [NAME], [FULL_NAME], [TIMEZONE], [COUNTRY_CODE], [COUNTRY]) VALUES
+INSERT INTO airports ([IATA_CODE], [NAME], [FULL_NAME], [TIMEZONE], [COUNTRY_CODE], [COUNTRY]) VALUES
   ('BKK', 'Bangkok', 'Suvarnabhumi Airport', 'Asia/Bangkok', 'TH', 'Thailand'),
   ('BOR', 'Bokeo', 'Bokeo International Airport', 'Asia/Vientiane', 'LA', 'Laos'),
   ('CAN', 'Guangzhou', 'Guangzhou Baiyun International Airport', 'Asia/Shanghai', 'CN', 'China'),

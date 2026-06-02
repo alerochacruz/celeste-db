@@ -1,4 +1,4 @@
-origin_id,dest_id,distance_km,flight_time_minutes,is_active
+origin_iata_code,dest_iata_code,distance_km,flight_time_minutes,is_active
 VTE,KTI,714.23,78,1
 LPQ,SAI,757.51,81,1
 PKZ,SAI,258.1,47,1

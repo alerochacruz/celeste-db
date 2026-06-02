@@ -1,4 +1,4 @@
-id,name,full_name,timezone,country_code,country
+iata_code,name,full_name,timezone,country_code,country
 BKK,Bangkok,Suvarnabhumi Airport,Asia/Bangkok,TH,Thailand
 BOR,Bokeo,Bokeo International Airport,Asia/Vientiane,LA,Laos
 CAN,Guangzhou,Guangzhou Baiyun International Airport,Asia/Shanghai,CN,China

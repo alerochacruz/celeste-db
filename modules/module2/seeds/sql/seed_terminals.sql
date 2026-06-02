@@ -1,4 +1,4 @@
-INSERT INTO terminals ([AIRPORT_ID], [NAME]) VALUES
+INSERT INTO terminals ([AIRPORT_IATA_CODE], [NAME]) VALUES
   ('BKK', '1'),
   ('BKK', '1C'),
   ('BKK', '2'),
