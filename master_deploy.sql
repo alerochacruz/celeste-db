@@ -26,7 +26,7 @@
 :r modules/module1/definitions/tables/tbl_aircraft_types.sql
 :r modules/module1/definitions/tables/tbl_seat_configurations.sql
 :r modules/module1/definitions/tables/tbl_maintenance_status.sql
-:r modules/module1/definitions/tables/tbl_aircraft.sql
+:r modules/module1/definitions/tables/tbl_aircrafts.sql
 
 -- MÓDULO 2: Rutas y Programación
 :r modules/module2/definitions/tables/tbl_airports.sql
