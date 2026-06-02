@@ -23,7 +23,10 @@
 
 -- MÓDULO 1: Aeronaves y Flota
 -- Agregar aquí scripts (tables, constraints, index etc.) en el orden que deben ejecutarse
--- :r modules/module1_aircraft_fleet/definitions/tables/tbl_aircraft.sql
+:r modules/module1_aircraft_fleet/definitions/tables/tbl_aircraft_types.sql
+:r modules/module1_aircraft_fleet/definitions/tables/tbl_seat_configurations.sql
+:r modules/module1_aircraft_fleet/definitions/tables/tbl_maintenance_status.sql
+:r modules/module1_aircraft_fleet/definitions/tables/tbl_aircraft.sql
 
 -- MÓDULO 2: Rutas y Programación
 :r modules/module2/definitions/tables/tbl_airports.sql
