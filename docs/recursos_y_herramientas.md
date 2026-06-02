@@ -7,6 +7,7 @@
 - [DBeaver Community | Free Open-Source Database Management Tool](https://dbeaver.io/)
 - [DataGrip | JetBrains for Data](https://www.jetbrains.com/datagrip/)
 - [Install SQL Server Management Studio | Microsoft Learn](https://learn.microsoft.com/en-us/ssms/install/install)
+- [Overview of the MSSQL Extension for Visual Studio Code - SQL Server | Microsoft Learn](https://learn.microsoft.com/en-us/sql/tools/visual-studio-code-extensions/mssql/mssql-extension-visual-studio-code?view=sql-server-ver17)
 
 ## Creación de Diagramas ER (Entidad-Relación)
 
