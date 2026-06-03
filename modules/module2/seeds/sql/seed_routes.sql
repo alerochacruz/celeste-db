@@ -102,4 +102,5 @@ INSERT INTO routes ([ORIGIN_IATA_CODE], [DEST_IATA_CODE], [DISTANCE_KM], [FLIGHT
   ('VTE', 'SGN', 910.21, 91, 1),
   ('BKK', 'DAD', 842.54, 86, 1),
   ('BKK', 'HAN', 992.93, 96, 1),
-  ('CNX', 'HAN', 764.03, 81, 1);
+  ('CNX', 'HAN', 764.03, 81, 1),
+  ('SWA', 'VTE', 1575.43, 135, 1);
