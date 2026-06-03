@@ -38,6 +38,47 @@ ORDER BY
   registration_number;
 ```
 
+Consulta para verificar que se agregaron las aeronaves "Comac":
+
+```sql
+SELECT
+  a.registration_number,
+  CONCAT(at.manufacturer, ' ', at.model) AS aircraft_type,
+  sc.name AS seat_configuration,
+  sc.economy_seats,
+  sc.business_seats,
+  sc.total_seats,
+  ms.status_code
+FROM
+  aircrafts a
+  INNER JOIN aircraft_types at ON a.aircraft_type_id = at.id
+  INNER JOIN seat_configurations sc ON a.seat_config_id = sc.id
+  AND a.aircraft_type_id = sc.aircraft_type_id
+  INNER JOIN maintenance_status ms ON a.current_status_id = ms.id
+ORDER BY
+  a.registration_number;
+```
+
+## Aeronaves
+
+Referencia rápida de aeronaves:
+
+| Registration | AircraftType     | EconomySeats | BusinessSeats | EngineType |
+| ------------ | ---------------- | ------------ | ------------- | ---------- |
+| RDPL-34188   | Airbus A320-214  | 126          | 16            | CFM56-5B4  |
+| RDPL-34199   | Airbus A320-214  | 126          | 16            | CFM56-5B4  |
+| RDPL-34223   | Airbus A320-214  | 150          | 8             | CFM56-5B4  |
+| RDPL-34224   | Airbus A320-214  | 150          | 8             | CFM56-5B4  |
+| RDPL-34173   | ATR 72-500       | 70           | 0             | PW127F     |
+| RDPL-34174   | ATR 72-500       | 70           | 0             | PW127F     |
+| RDPL-34175   | ATR 72-500       | 70           | 0             | PW127F     |
+| RDPL-34176   | ATR 72-500       | 70           | 0             | PW127F     |
+| RDPL-34222   | ATR 72-600       | 70           | 0             | PW127M     |
+| RDPL-34225   | ATR 72-600       | 70           | 0             | PW127M     |
+| RDPL-34228   | ATR 72-600       | 70           | 0             | PW127M     |
+| RDPL-34229   | Comac ARJ-21-700 | 85           | 4             | CF34-10A   |
+| RDPL-34266   | Comac ARJ-21-700 | 90           | 0             | CF34-10A   |
+
 ## Recursos
 
 Sitios web:
