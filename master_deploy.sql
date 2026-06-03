@@ -32,6 +32,7 @@
 :r modules/module2/definitions/tables/tbl_airports.sql
 :r modules/module2/definitions/tables/tbl_terminals.sql
 :r modules/module2/definitions/tables/tbl_routes.sql
+:r modules/module2/definitions/tables/tbl_flight_schedules.sql
 
 -- MÓDULO 3: Reservas y Pasajeros
 -- :r modules/module3_reservations_passengers/definitions/tables/tbl_passengers.sql
@@ -56,6 +57,7 @@
 :r modules/module2/seeds/sql/seed_airports.sql
 :r modules/module2/seeds/sql/seed_terminals.sql
 :r modules/module2/seeds/sql/seed_routes.sql
+:r modules/module2/seeds/sql/seed_flight_schedules.sql
 
 -- Agregar seeds para otros módulos según sea necesario
 
