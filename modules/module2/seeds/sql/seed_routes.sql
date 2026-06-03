@@ -36,6 +36,7 @@ INSERT INTO routes ([ORIGIN_IATA_CODE], [DEST_IATA_CODE], [DISTANCE_KM], [FLIGHT
   ('LPQ', 'NEU', 207.06, 44, 1),
   ('PKZ', 'NEU', 614.77, 71, 1),
   ('VTE', 'NEU', 314.07, 51, 1),
+  ('NEU', 'VTE', 314.07, 51, 1),
   ('LPQ', 'PKZ', 653.66, 74, 1),
   ('LXG', 'PKZ', 800.08, 83, 1),
   ('VTE', 'PKZ', 465.78, 61, 1),
