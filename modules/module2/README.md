@@ -5,20 +5,8 @@
 1. `airports`
 2. `terminals`
 3. `routes`
-
-### Tabla `airports`
-
-El campo `id` (*primary key*) de la tabla `airports` contiene el [código de aeropuertos de IATA](https://es.wikipedia.org/wiki/C%C3%B3digo_de_aeropuertos_de_IATA).
-
-## TO-DO
-
-- `flight_schedules`
-- `flight_instances`
-
-Dependencias:
-
-- `flight_schedules` probablemente necesita la tabla `aircraft_types` del Módulo 1.
-- `flight_instances` probablemente necesita la tabla `aircrafts` del Módulo 1.
+4. `flight_schedules`
+5. `flight_instances`
 
 Referencia para armar `flight_schedules`:
 
