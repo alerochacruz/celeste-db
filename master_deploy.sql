@@ -70,6 +70,17 @@ GO
 -- MÓDULO 5: Check-in y Operaciones
 -- :r modules/module5_checkin_operations/definitions/tables/tbl_check_ins.sql
 
+:r modules/module5/definitions/tables/tbl_boarding_groups.sql
+GO
+:r modules/module5/definitions/tables/tbl_check_ins.sql
+GO
+:r modules/module5/definitions/tables/tbl_baggage_tags.sql
+GO
+:r modules/module5/definitions/tables/tbl_flight_manifests.sql
+GO
+
+
+
 -- ============================================================
 -- II. Seed Data (CSV imports or SQL inserts)
 -- ============================================================
@@ -116,6 +127,14 @@ GO
 :r modules/module4/seeds/sql/seed_crew_assignments.sql
 GO
 
+
+-- MÓDULO 5 Seeds
+:r modules/module5/seeds/sql/seed_boarding_groups.sql
+GO
+:r modules/module5/seeds/sql/seed_check_ins.sql
+GO
+:r modules/module5/seeds/sql/seed_baggage_tags.sql
+GO
 -- Agregar seeds para otros módulos según sea necesario
 
 -- ============================================================
@@ -136,6 +155,20 @@ GO
 :r modules/module4/triggers/trg_validate_crew_assignment.sql
 GO
 
+-- MÓDULO 5 Procedures & Views
+:r modules/module5/procedures/sp_check_in_passenger.sql
+GO
+:r modules/module5/procedures/sp_board_passenger.sql
+GO
+:r modules/module5/procedures/sp_cerrar_vuelo.sql
+GO
+:r modules/module5/views/vw_check_in_status.sql
+GO
+:r modules/module5/views/vw_manifiesto_detalle.sql
+GO
+:r modules/module5/views/vw_tasa_no_show.sql
+GO
+
 -- Agregar otro module logic aquí
 
 -- ============================================================
@@ -148,6 +181,4 @@ GO
 -- MÓDULO 4 Tests
 -- :r modules/module4/tests/test_crew_assignments.sql
 
--- Agregar otros module tests aquí
-
-
+-- Agregar otros module tests aqu
