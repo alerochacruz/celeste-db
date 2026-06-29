@@ -149,6 +149,12 @@ GO
 -- :r modules/module2_routes_schedule/functions/fn_calculate_distance.sql
 -- :r modules/module2_routes_schedule/procedures/sp_create_route.sql
 
+-- MÓDULO 2 Views
+:r modules/module2/views/vw_flight_schedules_extended.sql
+GO
+:r modules/module2/views/vw_flight_instances_extended.sql
+GO
+
 -- MÓDULO 4 View & Triggers
 :r modules/module4/views/vw_crew_schedule.sql
 GO
