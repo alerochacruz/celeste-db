@@ -23,3 +23,9 @@ GO
 :r modules/module1/demo/a01_registrar_aeronave.sql
 GO
 
+-- ============================================================
+-- DEMO MÓDULO 2: Rutas y Programación
+-- ============================================================
+-- Crear nuevas instancias de vuelo QV855 y QV856
+:r modules/module2/demo/a01_crear_instancias_de_vuelo.sql
+GO
