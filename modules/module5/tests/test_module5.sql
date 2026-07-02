@@ -1,8 +1,6 @@
 
 -- Pruebas a realizar para el M5: Check-in y Operaciones
 
-
-
 USE celeste;
 GO
 
@@ -338,3 +336,7 @@ SELECT * FROM vw_manifiesto_detalle WHERE flight_instance_id = 1;
 
 USE celeste;
 SELECT * FROM vw_tasa_no_show;
+
+
+
+
