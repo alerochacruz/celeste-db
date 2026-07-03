@@ -2,7 +2,6 @@
 USE celeste;
 GO
 
-
 -- Antes de llegar a M5, esto ya fue registrado por los otros módulos del equipo
 
 

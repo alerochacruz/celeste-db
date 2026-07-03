@@ -71,9 +71,8 @@ ORDER BY ca.role_id;
 GO
 
 
--- PUNTO 5 DEL TP: DÍA DEL VUELO — CHECK-IN
--- "El pasajero hace check-in, se confirma asiento y
---  se emite la tarjeta de embarque"
+-- DÍA DEL VUELO — CHECK-IN
+-- El pasajero hace check-in, se confirma asiento y se emite la tarjeta de embarque
 
 -- Grupos de abordaje configurados para el vuelo
 SELECT
@@ -85,24 +84,30 @@ WHERE flight_instance_id = 1
 ORDER BY boarding_order;
 GO
 
+-- Así se registra un check-in en el sistema muestra el código del procedure
+-- STORED PROCEDURE 1: sp_check_in_passenger
+EXEC sp_help 'sp_check_in_passenger';
+GO
+
 -- Check-ins ya registrados 
 -- Check-ins registrados con tarjetas de embarque --
-SELECT
-    ci.boarding_pass_code               AS tarjeta_embarque,
-    p.first_name + ' ' + p.last_name   AS pasajero,
-    sa.seat_number                      AS asiento,
-    sa.class                            AS clase,
-    bg.group_name                       AS grupo_abordaje,
-    ci.channel                          AS canal_checkin,
-    ci.checked_in_at                    AS hora_checkin,
-    ci.status                           AS estado
-FROM check_ins ci
-JOIN passengers       p  ON ci.passenger_id       = p.id
-JOIN seat_assignments sa ON ci.seat_assignment_id = sa.id
-JOIN boarding_groups  bg ON ci.boarding_group_id  = bg.id
-WHERE ci.flight_instance_id = 1
-ORDER BY sa.class DESC, ci.id;
-GO
+--SELECT
+--    ci.boarding_pass_code               AS tarjeta_embarque,
+--    p.first_name + ' ' + p.last_name   AS pasajero,
+--    sa.seat_number                      AS asiento,
+--    sa.class                            AS clase,
+--    bg.group_name                       AS grupo_abordaje,
+--    ci.channel                          AS canal_checkin,
+--    ci.checked_in_at                    AS hora_checkin,
+--    ci.status                           AS estado
+--FROM check_ins ci
+--JOIN passengers       p  ON ci.passenger_id       = p.id
+--JOIN seat_assignments sa ON ci.seat_assignment_id = sa.id
+--JOIN boarding_groups  bg ON ci.boarding_group_id  = bg.id
+--WHERE ci.flight_instance_id = 1
+--ORDER BY sa.class DESC, ci.id;
+--GO
+
 
 -- Equipaje registrado en el check-in
 
@@ -140,8 +145,14 @@ WHERE ci.flight_instance_id = 1
 ORDER BY ci.id;
 GO
 
+-- STORED PROCEDURE 2: sp_board_passenger
+-- "Sofia presenta su tarjeta en la puerta"
+EXEC sp_board_passenger
+    @boarding_pass_code = 'BP-SOFIA002',
+    @flight_instance_id = 1;
+GO
+
 -- 30 minutos antes de salida:
---  - Sofia queda como NO_SHOW automáticamente
 --  - Se genera el manifiesto final
 --  - El vuelo queda cerrado
 
@@ -168,7 +179,7 @@ WHERE ci.flight_instance_id = 1
 ORDER BY ci.id;
 GO
 
--- Verificar que la reserva de Sofia cambió a NO_SHOW en M3
+-- Verificar que la reserva de Sofia cambió a a confirmado en M3
 SELECT
     b.booking_code                          AS codigo_reserva,
     p.first_name + ' ' + p.last_name       AS pasajero,
