@@ -3,7 +3,7 @@ CREATE TABLE seat_assignments
     id                 INT IDENTITY (1,1) NOT NULL,
     passenger_id       INT                NOT NULL,
     booking_id         INT                NOT NULL,
-    flight_instance_id INT                NOT NULL,
+    flight_instance_id INT                NOT NULL, -- Denormalizado, para facilitar validación
     seat_number        VARCHAR(5)         NOT NULL,
     class              VARCHAR(10)        NOT NULL,                                         --ECONOMY, BUSINESS
     assigned_at        DATETIME           NOT NULL DEFAULT GETDATE(),

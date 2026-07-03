@@ -56,6 +56,9 @@ GO
 GO
 :r modules/module3/definitions/tables/tbl_seat_assignments.sql
 GO
+:r modules/module3/definitions/types/tp_booking_seat_input.sql
+GO
+
 
 -- MÓDULO 4: Tripulación y Asignaciones
 :r modules/module4/definitions/tables/tbl_crew_roles.sql
@@ -155,11 +158,19 @@ GO
 :r modules/module2/views/vw_flight_instances_extended.sql
 GO
 
+-- MÓDULO 3 Procedures
+:r modules/module3/procedures/sp_register_passenger.sql
+:r modules/module3/procedures/sp_cancel_booking.sql
+:r modules/module3/procedures/sp_confirm_booking.sql
+:r modules/module3/procedures/sp_create_booking.sql
+
+
 -- MÓDULO 4 View & Triggers
 :r modules/module4/views/vw_crew_schedule.sql
 GO
 :r modules/module4/triggers/trg_validate_crew_assignment.sql
 GO
+
 
 -- MÓDULO 5 Procedures & Views
 :r modules/module5/procedures/sp_check_in_passenger.sql
