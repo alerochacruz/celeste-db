@@ -1,4 +1,5 @@
 -- Datos de la reserva individual
+
 -- -----------------------------------------------------------------------------
 -- Titular:     Diego Ruiz     (DNI 38444555)
 -- Vuelo:       QV856 CSX→VTE  (flight_instances.id: 162, 2026-11-06)

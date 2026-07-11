@@ -24,6 +24,10 @@ GO
 -- I. Module Definitions (tables, constraints, indexes)
 -- ============================================================
 
+-- MÓDULO 0: CORE
+:r modules/module0/definitions/tables/system_settings.sql
+GO
+
 -- MÓDULO 1: Aeronaves y Flota
 -- Agregar aquí scripts (tables, constraints, index etc.) en el orden que deben ejecutarse
 :r modules/module1/definitions/tables/tbl_aircraft_types.sql
@@ -87,6 +91,10 @@ GO
 -- ============================================================
 -- II. Seed Data (CSV imports or SQL inserts)
 -- ============================================================
+
+-- MÓDULO 0 Seeds
+:r modules/module0/seeds/sql/seed_system_settings.sql
+GO
 
 -- MÓDULO 1 Seeds
 :r modules/module1/seeds/sql/seed_maintenace_status.sql
@@ -158,11 +166,24 @@ GO
 :r modules/module2/views/vw_flight_instances_extended.sql
 GO
 
--- MÓDULO 3 Procedures
+-- MÓDULO 3
+-- Functions
+:r modules/module3/functions/fn_get_setting_int.sql
+GO
+-- Triggers
+:r modules/module3/triggers/tr_seat_assignment_overbooking.sql
+GO
+:r modules/module3/triggers/tr_seat_assignment_overbooking.sql
+GO
+-- Procedures
 :r modules/module3/procedures/sp_register_passenger.sql
+GO
 :r modules/module3/procedures/sp_cancel_booking.sql
+GO
 :r modules/module3/procedures/sp_confirm_booking.sql
+GO
 :r modules/module3/procedures/sp_create_booking.sql
+GO
 
 
 -- MÓDULO 4 View & Triggers

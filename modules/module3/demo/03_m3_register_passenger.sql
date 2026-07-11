@@ -1,19 +1,18 @@
 -- Datos de los pasajeros a registrar
 -- -----------------------------------------------------------------------------
 -- Caso 1
+
 -- Titular:        Ana García     - DNI 40111222 - AR
--- Acompañantes:   Bruno García   - DNI 45222333 - AR (menor de edad)
+-- Acompañantes:   Bruno García   - DNI 45222333 - AR
 --                 Clara Vega     - DNI 42333444 - AR
 
--- Caso 2 - Cancelación
+-- Caso 2 - Cancelacion
 -- Individual:     Diego Ruiz     - DNI 38444555 - AR
 
 -- Caso 3 - Overbooking
 -- Adicional:      Elena Pérez    - DNI 41555666 - AR
 
--- *****************************************************************************
 -- 1. Registrar titular de la reserva familiar
--- *****************************************************************************
 EXEC sp_register_passenger
     @document_type    = 'DNI',
     @document_number  = '40111222',
@@ -24,9 +23,7 @@ EXEC sp_register_passenger
     @email            = 'ana.garcia@mail.com',
     @phone            = '+541199001001';
 
--- *****************************************************************************
 -- 2. Registrar acompañante menor de edad - Sin telefono ni email
--- *****************************************************************************
 EXEC sp_register_passenger
     @document_type    = 'DNI',
     @document_number  = '45222333',
@@ -35,9 +32,7 @@ EXEC sp_register_passenger
     @birth_date       = '2015-07-20',
     @nationality_code = 'AR';
 
--- *****************************************************************************
 -- 3. Registrar acompañante adulto.
--- *****************************************************************************
 
 EXEC sp_register_passenger
     @document_type    = 'DNI',
@@ -51,9 +46,7 @@ EXEC sp_register_passenger
 
 
 -- CASO 2 - Cancelación posterior
--- *****************************************************************************
 -- 4. Registrar pasajero individual.
--- *****************************************************************************
 
 EXEC sp_register_passenger
     @document_type    = 'DNI',
@@ -66,9 +59,7 @@ EXEC sp_register_passenger
     @phone            = '+541199001004';
 
 -- CASO 3 - Overbooking
--- *****************************************************************************
 -- 5. Registrar pasajero adicional
--- *****************************************************************************
 EXEC sp_register_passenger
     @document_type    = 'DNI',
     @document_number  = '41555666',
