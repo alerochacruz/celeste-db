@@ -1,0 +1,216 @@
+collection: Celeste Dashboard
+database: Celeste SQL Server
+
+questions:
+  - name: KPI Active Aircraft
+    description: Aircraft currently marked as operational.
+    display: scalar
+    sql: |
+      SELECT COALESCE(SUM(aircraft_count), 0) AS active_aircraft
+      FROM vw_dashboard_fleet_status
+      WHERE is_operational = 1;
+
+  - name: KPI Scheduled Flights
+    description: Total scheduled flight instances in the dataset.
+    display: scalar
+    sql: |
+      SELECT COALESCE(SUM(flight_count), 0) AS scheduled_flights
+      FROM vw_dashboard_daily_operations;
+
+  - name: KPI Average Occupancy
+    description: Average flight occupancy percentage.
+    display: scalar
+    sql: |
+      SELECT CAST(COALESCE(AVG(occupancy_pct), 0) AS DECIMAL(6,2)) AS avg_occupancy_pct
+      FROM vw_dashboard_flight_occupancy;
+
+  - name: KPI Boarded Passengers
+    description: Total boarded passengers.
+    display: scalar
+    sql: |
+      SELECT COALESCE(SUM(boarded_count), 0) AS boarded_passengers
+      FROM vw_dashboard_checkin_boarding;
+
+  - name: Aircraft by Fleet Status
+    description: Aircraft distribution by operational status.
+    display: pie
+    sql: |
+      SELECT
+          status_code,
+          aircraft_count
+      FROM vw_dashboard_fleet_status
+      ORDER BY aircraft_count DESC;
+
+  - name: Flights by Status
+    description: Flight volume by operational status.
+    display: pie
+    sql: |
+      SELECT
+          status_code,
+          SUM(flight_count) AS flight_count
+      FROM vw_dashboard_daily_operations
+      GROUP BY status_code
+      ORDER BY flight_count DESC;
+
+  - name: Occupancy Bands
+    description: Flight distribution by occupancy band.
+    display: pie
+    sql: |
+      SELECT
+          CASE
+              WHEN occupancy_pct >= 85 THEN 'High occupancy'
+              WHEN occupancy_pct >= 60 THEN 'Medium occupancy'
+              ELSE 'Low occupancy'
+          END AS occupancy_band,
+          COUNT(*) AS flight_count
+      FROM vw_dashboard_flight_occupancy
+      GROUP BY
+          CASE
+              WHEN occupancy_pct >= 85 THEN 'High occupancy'
+              WHEN occupancy_pct >= 60 THEN 'Medium occupancy'
+              ELSE 'Low occupancy'
+          END
+      ORDER BY flight_count DESC;
+
+  - name: Daily Flight Trend
+    description: Flight volume over time.
+    display: line
+    sql: |
+      SELECT
+          flight_date,
+          SUM(flight_count) AS flight_count
+      FROM vw_dashboard_daily_operations
+      GROUP BY flight_date
+      ORDER BY flight_date;
+
+  - name: Top Flight Occupancy
+    description: Flights with highest occupancy percentage.
+    display: bar
+    sql: |
+      SELECT TOP 10
+          CONCAT(flight_number, ' ', route_code) AS flight,
+          occupancy_pct
+      FROM vw_dashboard_flight_occupancy
+      ORDER BY occupancy_pct DESC;
+
+  - name: Crew by Role
+    description: Assigned crew count by role.
+    display: bar
+    sql: |
+      SELECT
+          COALESCE(role_name, 'UNASSIGNED') AS role_name,
+          SUM(assigned_crew_count) AS assigned_crew_count
+      FROM vw_dashboard_crew_assignments
+      GROUP BY COALESCE(role_name, 'UNASSIGNED')
+      ORDER BY assigned_crew_count DESC;
+
+  - name: Check-in Boarding Funnel
+    description: Passenger check-in, boarding, and no-show totals.
+    display: bar
+    sql: |
+      SELECT 'Checked-in' AS metric, SUM(checked_in_count) AS passenger_count
+      FROM vw_dashboard_checkin_boarding
+      UNION ALL
+      SELECT 'Boarded' AS metric, SUM(boarded_count) AS passenger_count
+      FROM vw_dashboard_checkin_boarding
+      UNION ALL
+      SELECT 'No-show' AS metric, SUM(no_show_count) AS passenger_count
+      FROM vw_dashboard_checkin_boarding;
+
+  - name: Operations Snapshot
+    description: Flight-level operational overview.
+    display: table
+    sql: |
+      SELECT TOP 12
+          fo.flight_date,
+          fo.flight_number,
+          fo.route_code,
+          fo.status_code,
+          fo.registration_number,
+          fo.assigned_seats,
+          fo.total_seats,
+          fo.occupancy_pct,
+          cb.checked_in_count,
+          cb.boarded_count,
+          cb.no_show_count
+      FROM vw_dashboard_flight_occupancy fo
+      LEFT JOIN vw_dashboard_checkin_boarding cb
+          ON cb.flight_instance_id = fo.flight_instance_id
+      ORDER BY fo.flight_date, fo.flight_number;
+
+dashboard:
+  name: Celeste Airlines Operations
+  description: Operational dashboard for the Celeste airline database project.
+  width: full
+  cards:
+    - question: KPI Active Aircraft
+      x: 0
+      y: 0
+      w: 6
+      h: 4
+
+    - question: KPI Scheduled Flights
+      x: 6
+      y: 0
+      w: 6
+      h: 4
+
+    - question: KPI Average Occupancy
+      x: 12
+      y: 0
+      w: 6
+      h: 4
+
+    - question: KPI Boarded Passengers
+      x: 18
+      y: 0
+      w: 6
+      h: 4
+
+    - question: Aircraft by Fleet Status
+      x: 0
+      y: 4
+      w: 8
+      h: 6
+
+    - question: Flights by Status
+      x: 8
+      y: 4
+      w: 8
+      h: 6
+
+    - question: Occupancy Bands
+      x: 16
+      y: 4
+      w: 8
+      h: 6
+
+    - question: Daily Flight Trend
+      x: 0
+      y: 10
+      w: 24
+      h: 6
+
+    - question: Top Flight Occupancy
+      x: 0
+      y: 16
+      w: 12
+      h: 6
+
+    - question: Crew by Role
+      x: 12
+      y: 16
+      w: 12
+      h: 6
+
+    - question: Check-in Boarding Funnel
+      x: 0
+      y: 22
+      w: 12
+      h: 6
+
+    - question: Operations Snapshot
+      x: 12
+      y: 22
+      w: 12
+      h: 6

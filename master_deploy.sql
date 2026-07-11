@@ -156,6 +156,10 @@ GO
 :r modules/module1/views/vw_operative_fleet.sql
 GO
 
+-- MÓDULO 1 Dashboard Views
+:r modules/module1/dashboard_views/vw_dashboard_fleet_status.sql
+GO
+
 -- MÓDULO 2 Functions/Procedures
 -- :r modules/module2_routes_schedule/functions/fn_calculate_distance.sql
 -- :r modules/module2_routes_schedule/procedures/sp_create_route.sql
@@ -164,6 +168,10 @@ GO
 :r modules/module2/views/vw_flight_schedules_extended.sql
 GO
 :r modules/module2/views/vw_flight_instances_extended.sql
+GO
+
+-- MÓDULO 2 Dashboard Views
+:r modules/module2/dashboard_views/vw_dashboard_daily_operations.sql
 GO
 
 -- MÓDULO 3
@@ -185,11 +193,19 @@ GO
 :r modules/module3/procedures/sp_create_booking.sql
 GO
 
+-- MÓDULO 3 Dashboard Views
+:r modules/module3/dashboard_views/vw_dashboard_flight_occupancy.sql
+GO
+
 
 -- MÓDULO 4 View & Triggers
 :r modules/module4/views/vw_crew_schedule.sql
 GO
 :r modules/module4/triggers/trg_validate_crew_assignment.sql
+GO
+
+-- MÓDULO 4 Dashboard Views
+:r modules/module4/dashboard_views/vw_dashboard_crew_assignments.sql
 GO
 
 
@@ -205,6 +221,10 @@ GO
 :r modules/module5/views/vw_manifiesto_detalle.sql
 GO
 :r modules/module5/views/vw_tasa_no_show.sql
+GO
+
+-- MÓDULO 5 Dashboard Views
+:r modules/module5/dashboard_views/vw_dashboard_checkin_boarding.sql
 GO
 
 -- Agregar otro module logic aquí

@@ -67,3 +67,7 @@ $RECYCLE.BIN/
 *.bak.*
 *.tmp
 *.sql.log
+
+# Python cache files
+__pycache__/
+*.py[cod]

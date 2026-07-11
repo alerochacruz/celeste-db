@@ -9,6 +9,120 @@ services:
       SA_PASSWORD: ${SA_PASSWORD}
       MSSQL_PID: ${MSSQL_PID}
     restart: unless-stopped
+    networks:
+      - metabase
+  metabase-db:
+    image: postgres:15-alpine
+    container_name: metabase-db
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: metabase
+      POSTGRES_PASSWORD: ${MB_DB_PASS:-metabase}
+      POSTGRES_DB: metabase
+    volumes:
+      - metabase_pg_data:/var/lib/postgresql/data
+    networks:
+      - metabase-internal
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U metabase -d metabase" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  metabase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: metabase
+    restart: unless-stopped
+    depends_on:
+      metabase-db:
+        condition: service_healthy
+    ports:
+      - "${MB_PORT:-3001}:3000"
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: ${MB_DB_PASS:-metabase}
+      MB_DB_HOST: metabase-db
+      MB_SITE_NAME: "Celeste"
+      MB_SITE_LOCALE: es
+      JAVA_TIMEZONE: America/Argentina/Buenos_Aires
+    networks:
+      - metabase-internal
+      - metabase
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  metabase-setup:
+    image: curlimages/curl:8.11.1
+    container_name: metabase-setup
+    depends_on:
+      metabase:
+        condition: service_healthy
+      sqlserver:
+        condition: service_started
+    environment:
+      METABASE_URL: http://metabase:3000
+      MB_SITE_NAME: "Celeste"
+      MB_SETUP_ADMIN_EMAIL: ${MB_SETUP_ADMIN_EMAIL:-admin@celeste.local}
+      MB_SETUP_ADMIN_PASSWORD: ${MB_SETUP_ADMIN_PASSWORD:-Celeste2026!}
+      SQLSERVER_DB_NAME: ${SQLSERVER_DB_NAME:-celeste}
+      SQLSERVER_DB_HOST: sqlserver
+      SQLSERVER_DB_PORT: 1433
+      SQLSERVER_DB_USER: ${SQLSERVER_DB_USER:-sa}
+      SQLSERVER_DB_PASS: ${SQLSERVER_DB_PASS:-${SA_PASSWORD}}
+      SA_PASSWORD: ${SA_PASSWORD}
+    volumes:
+      - ./metabase/setup-metabase.sh:/setup-metabase.sh:ro
+    command: [ "sh", "/setup-metabase.sh" ]
+    networks:
+      - metabase
+    restart: "no"
+
+  metabase-dashboard-setup:
+    image: python:3.12-alpine
+    container_name: metabase-dashboard-setup
+    depends_on:
+      metabase:
+        condition: service_healthy
+    environment:
+      METABASE_URL: http://metabase:3000
+      MB_SETUP_ADMIN_EMAIL: ${MB_SETUP_ADMIN_EMAIL:-admin@celeste.local}
+      MB_SETUP_ADMIN_PASSWORD: ${MB_SETUP_ADMIN_PASSWORD:-Celeste2026!}
+      DASHBOARD_MANIFEST: /dashboard.yaml
+      MB_APP_DB_HOST: metabase-db
+      MB_APP_DB_PORT: 5432
+      MB_APP_DB_NAME: metabase
+      MB_APP_DB_USER: metabase
+      MB_APP_DB_PASS: ${MB_DB_PASS:-metabase}
+    volumes:
+      - ./metabase/setup-dashboard.py:/setup-dashboard.py:ro
+      - ./metabase/dashboard.yaml:/dashboard.yaml:ro
+    command: [ "sh", "-c", "pip install --no-cache-dir PyYAML psycopg[binary] && python /setup-dashboard.py" ]
+    networks:
+      - metabase
+      - metabase-internal
+    restart: "no"
+
+volumes:
+  metabase_pg_data:
+    driver: local
+
+networks:
+  metabase-internal:
+    driver: bridge
+  metabase:
+    name: metabase
+    driver: bridge
 
 # Referencia: comando original de Docker
 # docker run \

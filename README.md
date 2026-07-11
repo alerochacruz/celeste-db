@@ -37,7 +37,7 @@ Sigue estos pasos para levantar el entorno local y desplegar la base de datos:
 
 El archivo `docker/compose.yaml` requiere ciertas variables para inicializar el contenedor. Crea una copia del archivo `.env.example` y dale como nuevo nombre `.env`.
 
-### 2. Levantar el contenedor de SQL Server
+### 2. Levantar SQL Server y Metabase
 
 Navega hasta la carpeta donde se encuentra el archivo `compose.yaml` y ejecuta:
 
@@ -45,7 +45,22 @@ Navega hasta la carpeta donde se encuentra el archivo `compose.yaml` y ejecuta:
 docker compose up -d
 ```
 
-> **Nota:** Esto descargará la imagen oficial de SQL Server 2022 y levantará el servicio en el puerto `1433`.
+> **Nota:** Esto descargará la imagen oficial de SQL Server 2022, levantará SQL Server en el puerto `1433` y Metabase en `http://localhost:3001`.
+
+En una instalación limpia, Metabase se inicializa automáticamente con:
+
+- Email: `admin@celeste.local`
+- Password: `Celeste2026!`
+
+También se intenta registrar automáticamente la conexión `Celeste SQL Server` apuntando a la base `celeste`.
+
+Si ya tenías un volumen previo de Metabase y querés configurar la conexión manualmente desde la UI, usá estos datos:
+
+- Host: `sqlserver`
+- Puerto: `1433`
+- Base de datos: `celeste`
+- Usuario: `sa`
+- Password: el valor de `SA_PASSWORD` en `docker/.env`
 
 ### 3. Despliegue de la Base de Datos (`master_deploy.sql`)
 
@@ -55,6 +70,18 @@ Ejecuta el siguiente comando en tu terminal (reemplaza el password si lo cambias
 
 ```bash
 sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -i master_deploy.sql
+```
+
+Luego podés re-ejecutar el setup automático de Metabase para registrar la conexión si la base todavía no existía cuando se levantaron los contenedores:
+
+```bash
+docker compose run --rm metabase-setup
+```
+
+Para crear/actualizar los modelos, preguntas y dashboard de Metabase definidos en `docker/metabase/dashboard.yaml`, ejecutá:
+
+```bash
+docker compose run --rm metabase-dashboard-setup
 ```
 
 ### 4. Destruir el contenedor de SQL Server
@@ -121,4 +148,3 @@ El repositorio está organizado por módulos independientes para facilitar el tr
 - **Código:** Los scripts `.sql` y cualquier otro código (nombres de tablas, variables, funciones, archivos, carpeta, etc.) se escriben estrictamente en **inglés**.
 - **Comentarios:** Los comentarios dentro de los scripts se pueden escribir en **castellano** o **inglés**, según la preferencia del desarrollador.
 - **Documentación:** Toda la documentación oficial (archivos `README.md`, guías y especificaciones en la carpeta `docs/`) se escribe enteramente en **castellano**.
-
