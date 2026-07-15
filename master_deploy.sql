@@ -86,7 +86,9 @@ GO
 :r modules/module5/definitions/tables/tbl_flight_manifests.sql
 GO
 
-
+-- MÓDULO 6: Facturación
+:r modules/module6/definitions/tables/tbl_invoices.sql
+GO
 
 -- ============================================================
 -- II. Seed Data (CSV imports or SQL inserts)
@@ -172,6 +174,15 @@ GO
 
 -- MÓDULO 2 Dashboard Views
 :r modules/module2/dashboard_views/vw_dashboard_daily_operations.sql
+GO
+
+-- MÓDULO 6 Procedures
+-- Se despliegan antes dado que son requeridos por el M3
+:r modules/module6/procedures/sp_generate_invoice.sql
+GO
+:r modules/module6/procedures/sp_register_payment.sql
+GO
+:r modules/module6/procedures/sp_cancel_invoice.sql
 GO
 
 -- MÓDULO 3

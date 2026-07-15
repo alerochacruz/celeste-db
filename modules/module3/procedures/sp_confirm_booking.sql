@@ -58,6 +58,14 @@ BEGIN
     SET status_id = @confirmed_status_id
     WHERE id = @booking_id;
 
+    -- *************************************************************************
+    -- Módulo Facturación
+    -- Generar factura
+    -- *************************************************************************
+    EXEC sp_generate_invoice
+    @booking_id = @booking_id;
+    -- *************************************************************************
+
     -- Devolver resumen
     SELECT
         b.id                                    AS reserva_id,

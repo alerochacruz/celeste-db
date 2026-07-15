@@ -58,6 +58,14 @@ BEGIN
     SET status_id = @cancelled_status_id
     WHERE id = @booking_id;
 
+    -- *************************************************************************
+    -- Módulo Facturación
+    -- Cancelar factura asociada
+    -- *************************************************************************
+    EXEC sp_cancel_invoice
+    @booking_id = @booking_id;
+    -- *************************************************************************
+
     -- Devolver resumen
     SELECT
         b.id                                    AS reserva_id,
