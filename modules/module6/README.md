@@ -1,138 +1,120 @@
 # M6: Facturación
 
+Este módulo agrega facturación al ciclo operativo de Celeste. La factura nace a partir de una reserva confirmada, puede pagarse o cancelarse, y funciona como requisito comercial para que M5 permita el check-in.
+
 ## Tablas
 
-1. `invoices`
+1. `invoices`: registra una factura por reserva.
+
+Campos principales:
+
+- `booking_id`: relación directa con `bookings`.
+- `flight_instance_id`: vuelo asociado a la factura.
+- `base_fare`, `taxes`, `extras`: componentes del importe.
+- `total_amount`: columna calculada persistida.
+- `status`: `PENDING`, `PAID` o `CANCELLED`.
+- `issue_date`, `payment_date`: fechas de emisión y pago.
 
 ## Stored Procedures
 
-1. `sp_generate_invoice`
-2. `sp_cancel_invoice` 
-3. `sp_register_payment` 
+1. `sp_generate_invoice`: genera una factura `PENDING` para una reserva `CONFIRMED`.
+2. `sp_register_payment`: marca una factura como `PAID` y registra `payment_date`.
+3. `sp_cancel_invoice`: marca una factura como `CANCELLED` si todavía no fue pagada.
 
-## Demo
+## Integraciones
 
-### Antes de empezar
+### M3: Reservas y Pasajeros
 
-Comprobar que existe la tarifa por defecto:
+`sp_confirm_booking` confirma la reserva y genera la factura dentro de una misma transacción. Si falla la generación de la factura, se revierte la confirmación.
 
-```sql
-SELECT *
-FROM system_settings
-WHERE setting_key = 'DEFAULT_BASE_FARE';
+`sp_cancel_booking` cancela la reserva y, si existe factura asociada, intenta cancelarla dentro de la misma transacción. Las facturas `PAID` no pueden cancelarse.
+
+### M5: Check-in y Operaciones
+
+`sp_check_in_passenger` valida que la reserva tenga una factura en estado `PAID`. Si no existe factura o está `PENDING`/`CANCELLED`, el check-in falla.
+
+## Seeds
+
+`seeds/sql/seed_invoices.sql` crea facturas `PAID` para las reservas iniciales en estado `CONFIRMED` y `NO_SHOW`.
+
+Las reservas `PENDING` y `CANCELLED` quedan sin factura inicial para conservar escenarios de prueba.
+
+## Dashboard Views
+
+1. `vw_dashboard_invoice_status`: facturas e importes por estado.
+2. `vw_dashboard_revenue_by_route`: revenue pagado por ruta.
+3. `vw_dashboard_revenue_by_flight`: revenue y facturación por instancia de vuelo.
+
+Estas vistas alimentan las cards de facturación del dashboard de Metabase.
+
+## Tests
+
+### Test de M6
+
+```bash
+sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -d celeste -i modules/module6/tests/test_module6.sql
 ```
 
-Y muestra que inicialmente no existen facturas:
+El test es transaccional y hace `ROLLBACK`. Cubre:
 
-```sql
-SELECT *
-FROM invoices;
+- generación de factura al confirmar reserva;
+- registro de pago;
+- bloqueo de cancelación de factura `PAID`;
+- cancelación de factura `PENDING`;
+- bloqueo de pago sobre factura `CANCELLED`.
+
+### Test de integración M5-M6
+
+```bash
+sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -d celeste -i modules/module5/tests/test_check_in_requires_paid_invoice.sql
 ```
 
-### Paso 1: Elegir una reserva PENDING
+El test es transaccional y hace `ROLLBACK`. Cubre:
+
+- check-in sin factura: falla;
+- check-in con factura `PENDING`: falla;
+- check-in con factura `PAID`: pasa.
+
+## Demo Manual
+
+Elegir una reserva `PENDING`:
 
 ```sql
 SELECT
     b.id,
+    b.booking_code,
     bs.code AS booking_status,
-    b.flight_instance_id,
-    b.booking_date
+    b.flight_instance_id
 FROM bookings b
 INNER JOIN booking_statuses bs
     ON bs.id = b.status_id
 WHERE bs.code = 'PENDING';
 ```
 
-Supongamos que devuelve:
-
-```text
-id = 4
-```
-
-### Paso 2: Confirmar la reserva
+Confirmar la reserva. Esto genera una factura `PENDING`:
 
 ```sql
-EXEC sp_confirm_booking
-    @booking_id = 4;
+EXEC sp_confirm_booking @booking_id = 4;
 ```
 
-Este procedimiento confirma la reserva y automáticamente genera la factura.
-
-### Paso 3: Mostrar la factura creada
+Registrar el pago:
 
 ```sql
-SELECT *
+DECLARE @invoice_id INT;
+
+SELECT @invoice_id = id
 FROM invoices
 WHERE booking_id = 4;
+
+EXEC sp_register_payment @invoice_id = @invoice_id;
 ```
 
-Debería verse algo parecido a:
-
-| id | booking_id | base_fare | taxes | extras | total_amount | status  |
-| -- | ---------- | --------- | ----- | ------ | ------------ | ------- |
-| 1  | 4          | 250.00    | 37.50 | 0      | 287.50       | PENDING |
-
-La tarifa base proviene de `system_settings`, los impuestos se calculan automáticamente y el total es una columna calculada.
-
-### Paso 3: Registrar el pago
-
-Primero obtener el id:
-
-```sql
-SELECT id
-FROM invoices
-WHERE booking_id = 4;
-```
-
-Supongamos:
-
-```text
-id = 1
-```
-
-Ahora:
-
-```sql
-EXEC sp_register_payment
-    @invoice_id = 1;
-```
-
-Mostrar el resultado:
-
-```sql
-SELECT *
-FROM invoices
-WHERE id = 1;
-```
-
-Ahora deberá aparecer:
-
-```text
-status = PAID
-
-payment_date = ...
-```
-
-### Paso 5: Intentar cancelar la factura
-
-```sql
-EXEC sp_cancel_invoice
-    @booking_id = 4;
-```
-
-El procedimiento debe producir el error:
-
-```text
-Paid invoices cannot be cancelled.
-```
-
-Eso demuestra que existen reglas de negocio.
-
-### Paso 6: Mostrar el estado final
+Verificar estado final:
 
 ```sql
 SELECT
     b.id,
+    b.booking_code,
     bs.code AS booking_status,
     i.status AS invoice_status,
     i.total_amount,
@@ -144,6 +126,3 @@ LEFT JOIN invoices i
     ON i.booking_id = b.id
 WHERE b.id = 4;
 ```
-
-De esta manera se pueden visualizar ambas tablas relacionadas.
-

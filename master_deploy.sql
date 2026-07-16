@@ -141,6 +141,10 @@ GO
 GO
 
 
+-- MÓDULO 6 Seeds
+:r modules/module6/seeds/sql/seed_invoices.sql
+GO
+
 -- MÓDULO 5 Seeds
 :r modules/module5/seeds/sql/seed_boarding_groups.sql
 GO
@@ -192,7 +196,7 @@ GO
 -- Triggers
 :r modules/module3/triggers/tr_seat_assignment_overbooking.sql
 GO
-:r modules/module3/triggers/tr_seat_assignment_overbooking.sql
+:r modules/module3/triggers/tr_seat_assignment_consistency.sql
 GO
 -- Procedures
 :r modules/module3/procedures/sp_register_passenger.sql
@@ -236,6 +240,14 @@ GO
 
 -- MÓDULO 5 Dashboard Views
 :r modules/module5/dashboard_views/vw_dashboard_checkin_boarding.sql
+GO
+
+-- MÓDULO 6 Dashboard Views
+:r modules/module6/dashboard_views/vw_dashboard_invoice_status.sql
+GO
+:r modules/module6/dashboard_views/vw_dashboard_revenue_by_route.sql
+GO
+:r modules/module6/dashboard_views/vw_dashboard_revenue_by_flight.sql
 GO
 
 -- Agregar otro module logic aquí

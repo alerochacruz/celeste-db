@@ -53,18 +53,37 @@ BEGIN
         RETURN;
     END;
 
-    -- Actualizar estado
-    UPDATE bookings
-    SET status_id = @cancelled_status_id
-    WHERE id = @booking_id;
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
-    -- *************************************************************************
-    -- Módulo Facturación
-    -- Cancelar factura asociada
-    -- *************************************************************************
-    EXEC sp_cancel_invoice
-    @booking_id = @booking_id;
-    -- *************************************************************************
+            -- Actualizar estado
+            UPDATE bookings
+            SET status_id = @cancelled_status_id
+            WHERE id = @booking_id;
+
+            -- *************************************************************************
+            -- Módulo Facturación
+            -- Cancelar factura asociada, si existe
+            -- *************************************************************************
+            IF EXISTS (SELECT 1 FROM invoices WHERE booking_id = @booking_id)
+            BEGIN
+                EXEC sp_cancel_invoice
+                    @booking_id = @booking_id;
+            END;
+            -- *************************************************************************
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        DECLARE @err_msg NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @err_sev INT = ERROR_SEVERITY();
+        DECLARE @err_state INT = ERROR_STATE();
+        RAISERROR('sp_cancel_booking fallo: %s', @err_sev, @err_state, @err_msg);
+        RETURN;
+    END CATCH;
 
     -- Devolver resumen
     SELECT

@@ -31,6 +31,13 @@ questions:
       SELECT COALESCE(SUM(boarded_count), 0) AS boarded_passengers
       FROM vw_dashboard_checkin_boarding;
 
+  - name: KPI Paid Revenue
+    description: Total revenue from paid invoices.
+    display: scalar
+    sql: |
+      SELECT COALESCE(SUM(paid_amount), 0) AS paid_revenue
+      FROM vw_dashboard_invoice_status;
+
   - name: Aircraft by Fleet Status
     description: Aircraft distribution by operational status.
     display: pie
@@ -138,6 +145,42 @@ questions:
           ON cb.flight_instance_id = fo.flight_instance_id
       ORDER BY fo.flight_date, fo.flight_number;
 
+  - name: Invoices by Status
+    description: Invoice count by billing status.
+    display: pie
+    sql: |
+      SELECT
+          status,
+          invoice_count
+      FROM vw_dashboard_invoice_status
+      ORDER BY invoice_count DESC;
+
+  - name: Revenue by Route
+    description: Paid revenue by route.
+    display: bar
+    sql: |
+      SELECT TOP 10
+          route_code,
+          paid_revenue
+      FROM vw_dashboard_revenue_by_route
+      ORDER BY paid_revenue DESC;
+
+  - name: Revenue by Flight
+    description: Flight-level billing and revenue detail.
+    display: table
+    sql: |
+      SELECT TOP 12
+          flight_date,
+          flight_number,
+          route_code,
+          status_code,
+          invoice_count,
+          paid_revenue,
+          pending_amount,
+          cancelled_amount
+      FROM vw_dashboard_revenue_by_flight
+      ORDER BY paid_revenue DESC, flight_date;
+
 dashboard:
   name: Celeste Airlines Operations
   description: Operational dashboard for the Celeste airline database project.
@@ -213,4 +256,28 @@ dashboard:
       x: 12
       y: 22
       w: 12
+      h: 6
+
+    - question: KPI Paid Revenue
+      x: 0
+      y: 28
+      w: 6
+      h: 4
+
+    - question: Invoices by Status
+      x: 6
+      y: 28
+      w: 6
+      h: 4
+
+    - question: Revenue by Route
+      x: 12
+      y: 28
+      w: 12
+      h: 6
+
+    - question: Revenue by Flight
+      x: 0
+      y: 34
+      w: 24
       h: 6

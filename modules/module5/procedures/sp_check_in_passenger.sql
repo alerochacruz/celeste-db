@@ -16,6 +16,7 @@ BEGIN
     DECLARE @boarding_group_id   INT;
     DECLARE @boarding_pass_code  VARCHAR(20);
     DECLARE @check_in_id         INT;
+    DECLARE @invoice_status      VARCHAR(20);
 
     SELECT
         @flight_instance_id  = b.flight_instance_id,
@@ -40,6 +41,22 @@ BEGIN
     IF EXISTS (SELECT 1 FROM check_ins WHERE booking_id = @booking_id)
     BEGIN
         RAISERROR('Check-in fallido: ya existe un check-in para la reserva #%d.', 16, 1, @booking_id);
+        RETURN;
+    END;
+
+    SELECT @invoice_status = status
+    FROM invoices
+    WHERE booking_id = @booking_id;
+
+    IF @invoice_status IS NULL
+    BEGIN
+        RAISERROR('Check-in fallido: la reserva #%d no tiene factura asociada.', 16, 1, @booking_id);
+        RETURN;
+    END;
+
+    IF @invoice_status <> 'PAID'
+    BEGIN
+        RAISERROR('Check-in fallido: la factura de la reserva #%d no esta PAID (estado: %s).', 16, 1, @booking_id, @invoice_status);
         RETURN;
     END;
 

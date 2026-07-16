@@ -53,18 +53,34 @@ BEGIN
         RETURN;
     END;
 
-    -- Actualizar estado
-    UPDATE bookings
-    SET status_id = @confirmed_status_id
-    WHERE id = @booking_id;
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
-    -- *************************************************************************
-    -- Módulo Facturación
-    -- Generar factura
-    -- *************************************************************************
-    EXEC sp_generate_invoice
-    @booking_id = @booking_id;
-    -- *************************************************************************
+            -- Actualizar estado
+            UPDATE bookings
+            SET status_id = @confirmed_status_id
+            WHERE id = @booking_id;
+
+            -- *************************************************************************
+            -- Módulo Facturación
+            -- Generar factura
+            -- *************************************************************************
+            EXEC sp_generate_invoice
+                @booking_id = @booking_id;
+            -- *************************************************************************
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        DECLARE @err_msg NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @err_sev INT = ERROR_SEVERITY();
+        DECLARE @err_state INT = ERROR_STATE();
+        RAISERROR('sp_confirm_booking fallo: %s', @err_sev, @err_state, @err_msg);
+        RETURN;
+    END CATCH;
 
     -- Devolver resumen
     SELECT

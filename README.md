@@ -84,6 +84,8 @@ Para crear/actualizar los modelos, preguntas y dashboard de Metabase definidos e
 docker compose run --rm metabase-dashboard-setup
 ```
 
+El dashboard incluye métricas operativas y comerciales: flota, vuelos, ocupación, check-in, tripulación, facturas y revenue.
+
 ### 4. Destruir el contenedor de SQL Server
 
 Para detener y eliminar el contenedor de la base de datos, ejecuta:
@@ -135,11 +137,31 @@ celeste-db/
 └── README.md
 ```
 
-El repositorio está organizado por módulos independientes para facilitar el trabajo en equipo de los 5 integrantes:
+El repositorio está organizado por módulos independientes para facilitar el trabajo en equipo:
 
 - **`docker/`**: Configuración del contenedor y scripts de inicialización del sistema (`init/`).
 - **`modules/`**: Contiene la lógica de negocio dividida por módulos (ej. `module2`). Cada módulo cuenta con sus propias definiciones de tablas, funciones, procedimientos, triggers y datos de prueba (*seeds*).
 - **`master_deploy.sql`**: Script principal encargado de unificar y ejecutar secuencialmente todos los scripts del proyecto.
+
+## Módulos funcionales
+
+1. **M0: System Settings**: configuración global utilizada por reglas transversales, como margen de overbooking y tarifa base por defecto.
+2. **M1: Aeronaves y Flota**: tipos de aeronave, configuraciones de asientos, estados de mantenimiento y flota operativa.
+3. **M2: Rutas y Programación**: aeropuertos, terminales, rutas, schedules e instancias de vuelo.
+4. **M3: Reservas y Pasajeros**: pasajeros, reservas, asignación de asientos, confirmación, cancelación y overbooking controlado.
+5. **M4: Tripulación y Asignaciones**: roles, tripulantes, certificaciones y asignaciones con validaciones regulatorias.
+6. **M5: Check-in y Operaciones**: check-in, abordaje, equipaje, manifiesto y cierre operacional.
+7. **M6: Facturación**: facturas asociadas a reservas, pagos, cancelaciones, validación comercial de check-in y vistas de revenue para Metabase.
+
+## Flujo principal
+
+1. M2 crea instancias de vuelo sobre rutas programadas y aeronaves de M1.
+2. M3 crea reservas y asigna asientos para pasajeros.
+3. M3 confirma reservas y M6 genera la factura correspondiente.
+4. M6 registra el pago de la factura.
+5. M5 permite check-in solo si la reserva está `CONFIRMED` y la factura está `PAID`.
+6. M5 gestiona abordaje, no-shows y cierre de manifiesto.
+7. Metabase visualiza indicadores operativos y comerciales desde las vistas `vw_dashboard_*`.
 
 > **Nota:** Para crear la carpeta de tu módulo puedes uitilzar `module2` como plantilla.
 

@@ -12,7 +12,10 @@ BEGIN
         FROM invoices
         WHERE booking_id = @booking_id
     )
+    BEGIN
         RAISERROR('Invoice not found.',16,1);
+        RETURN;
+    END;
 
     IF EXISTS
     (
@@ -21,8 +24,10 @@ BEGIN
         WHERE booking_id = @booking_id
           AND status = 'PAID'
     )
+    BEGIN
         RAISERROR('Paid invoices cannot be cancelled.',16,1);
         RETURN;
+    END;
 
     UPDATE invoices
     SET

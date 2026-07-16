@@ -41,6 +41,7 @@ module5/
 | M1 – Aeronaves             | `aircrafts`, `aircraft_types`, `seat_configurations` |
 | M2 – Vuelos                | `flight_instances`, `flight_schedules`, `routes` |
 | M3 – Reservas              | `bookings`, `booking_statuses`, `passengers`, `seat_assignments` |
+| M6 – Facturación           | `invoices` |
 
 > **Nota:** La tabla `flight_instances` (M2) incluye la columna `is_manifest_closed BIT` preparada específicamente para que `sp_cerrar_vuelo` la actualice al cerrar el vuelo.
 
@@ -65,7 +66,7 @@ Manifiesto final generado por `sp_cerrar_vuelo`. Contiene totales de pasajeros, 
 ## Procedimientos
 
 ### `sp_check_in_passenger`
-Registra el check-in de un pasajero. Valida que la reserva sea CONFIRMED, que el vuelo esté activo, que no exista check-in previo y que haya asiento asignado. Genera un boarding_pass_code único con formato `BP-XXXXXXXX`.
+Registra el check-in de un pasajero. Valida que la reserva sea `CONFIRMED`, que exista una factura `PAID`, que el vuelo esté activo, que no exista check-in previo y que haya asiento asignado. Genera un `boarding_pass_code` único con formato `BP-XXXXXXXX`.
 
 ```sql
 EXEC sp_check_in_passenger
@@ -133,12 +134,18 @@ Cada uno debe mostrar `Commands completed successfully` antes de pasar al siguie
 
 Abrí `tests/test_module5.sql` y ejecutá con `Ctrl + Shift + E`. En el panel de resultados inferior vas a ver la salida de cada test con `PRINT` como separadores.
 
+Para validar la integración con facturación, ejecutá también:
+
+```bash
+sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -d celeste -i modules/module5/tests/test_check_in_requires_paid_invoice.sql
+```
+
 ---
 
 ## Flujo completo del día del vuelo
 
 ```
-[Reserva CONFIRMED en M3]
+[Reserva CONFIRMED en M3 + factura PAID en M6]
          │
          ▼
 sp_check_in_passenger()  →  check_ins.status = 'CHECKED_IN'
