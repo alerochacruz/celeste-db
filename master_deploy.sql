@@ -90,6 +90,12 @@ GO
 :r modules/module6/definitions/tables/tbl_invoices.sql
 GO
 
+-- MÓDULO 6 Triggers
+:r modules/module6/triggers/trg_validate_invoice_booking_status.sql
+GO
+:r modules/module6/triggers/trg_sync_booking_total_from_invoice.sql
+GO
+
 -- ============================================================
 -- II. Seed Data (CSV imports or SQL inserts)
 -- ============================================================

@@ -56,14 +56,9 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-            -- Actualizar estado
-            UPDATE bookings
-            SET status_id = @cancelled_status_id
-            WHERE id = @booking_id;
-
             -- *************************************************************************
             -- Módulo Facturación
-            -- Cancelar factura asociada, si existe
+            -- Cancelar factura asociada si existe
             -- *************************************************************************
             IF EXISTS (SELECT 1 FROM invoices WHERE booking_id = @booking_id)
             BEGIN
@@ -71,6 +66,11 @@ BEGIN
                     @booking_id = @booking_id;
             END;
             -- *************************************************************************
+
+            -- Actualizar estado
+            UPDATE bookings
+            SET status_id = @cancelled_status_id
+            WHERE id = @booking_id;
 
         COMMIT TRANSACTION;
     END TRY
@@ -81,6 +81,7 @@ BEGIN
         DECLARE @err_msg NVARCHAR(4000) = ERROR_MESSAGE();
         DECLARE @err_sev INT = ERROR_SEVERITY();
         DECLARE @err_state INT = ERROR_STATE();
+
         RAISERROR('sp_cancel_booking fallo: %s', @err_sev, @err_state, @err_msg);
         RETURN;
     END CATCH;

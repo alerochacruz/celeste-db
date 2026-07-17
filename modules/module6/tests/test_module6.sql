@@ -7,6 +7,9 @@ DECLARE @cancel_booking_id INT;
 DECLARE @invoice_id INT;
 DECLARE @cancelled_invoice_id INT;
 DECLARE @status VARCHAR(20);
+DECLARE @booking_total DECIMAL(10,2);
+DECLARE @invoice_total DECIMAL(10,2);
+DECLARE @cancelled_booking_id INT;
 
 BEGIN TRY
     BEGIN TRANSACTION;
@@ -44,6 +47,19 @@ BEGIN TRY
     IF @status <> 'PENDING'
     BEGIN
         THROW 56002, 'TEST 1 failed: generated invoice is not PENDING.', 1;
+    END;
+
+    SELECT
+        @booking_total = b.total_amount,
+        @invoice_total = i.total_amount
+    FROM bookings b
+    INNER JOIN invoices i
+        ON i.booking_id = b.id
+    WHERE b.id = @pending_booking_id;
+
+    IF @booking_total <> @invoice_total
+    BEGIN
+        THROW 56010, 'TEST 1 failed: booking total was not synced from invoice.', 1;
     END;
 
     PRINT 'TEST 2: registering invoice payment';
@@ -127,7 +143,48 @@ BEGIN TRY
             THROW;
     END CATCH;
 
-    ROLLBACK TRANSACTION;
+    PRINT 'TEST 6: invoice cannot be created for non-confirmed booking';
+
+    SELECT TOP 1 @cancelled_booking_id = b.id
+    FROM bookings b
+    INNER JOIN booking_statuses bs
+        ON bs.id = b.status_id
+    WHERE bs.code = 'CANCELLED'
+      AND NOT EXISTS (SELECT 1 FROM invoices i WHERE i.booking_id = b.id)
+    ORDER BY b.id;
+
+    IF @cancelled_booking_id IS NULL
+    BEGIN
+        THROW 56011, 'M6 test setup failed: no CANCELLED booking without invoice was found.', 1;
+    END;
+
+    BEGIN TRY
+        INSERT INTO invoices
+        (
+            booking_id,
+            flight_instance_id,
+            base_fare,
+            taxes,
+            extras
+        )
+        SELECT
+            b.id,
+            b.flight_instance_id,
+            100.00,
+            15.00,
+            0.00
+        FROM bookings b
+        WHERE b.id = @cancelled_booking_id;
+
+        THROW 56012, 'TEST 6 failed: invoice for non-confirmed booking should have failed.', 1;
+    END TRY
+    BEGIN CATCH
+        IF ERROR_NUMBER() = 56012
+            THROW;
+    END CATCH;
+
+    IF @@TRANCOUNT > 0
+        ROLLBACK TRANSACTION;
 
     PRINT 'M6 TESTS PASSED';
 END TRY

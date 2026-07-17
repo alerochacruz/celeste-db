@@ -32,7 +32,7 @@ CROSS APPLY
     SELECT CAST(ROUND(totals.total_amount / 1.15, 2) AS DECIMAL(10,2)) AS base_fare,
            totals.total_amount
 ) amounts
-WHERE bs.code IN ('CONFIRMED', 'NO_SHOW')
+WHERE bs.code = 'CONFIRMED'
   AND NOT EXISTS
   (
       SELECT 1
