@@ -1,8 +1,6 @@
 # Sistema de gestión de aerolínea
 
-—PROYECTO 15
-
-Este documento es un borrador inicial y está en desarrollo; a medida que se avance en el proyecto, se actualizará con más detalles y ejemplos.
+![Proyecto Celeste por Datear](https://i.ibb.co/DPYVD7nZ/banner-main.jpg)
 
 ## Sobre el repositorio
 

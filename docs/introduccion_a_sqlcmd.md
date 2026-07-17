@@ -1,5 +1,7 @@
 # Introducción a SQL CMD
 
+![SQL CMD](https://i.ibb.co/dJ0G8SRY/banner-sqlcmd.jpg)
+
 ## ¿Qué es sqlcmd y la versión go-sqlcmd?
 
 `sqlcmd` es una utilidad de línea de comandos desarrollada por Microsoft que permite la ejecución interactiva y automatizada de consultas Transact-SQL (T-SQL), procedimientos almacenados y scripts de sistema de archivos.

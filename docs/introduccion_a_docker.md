@@ -1,5 +1,7 @@
 # Introducción a Docker
 
+![Docker](https://i.ibb.co/ccK69zLh/banner-docker.jpg)
+
 ## ¿Qué es Docker?
 
 Docker es una plataforma de código abierto basada en la tecnología de contenedores que permite empaquetar, distribuir y ejecutar aplicaciones junto con todas sus dependencias (bibliotecas, variables de entorno y archivos de configuración) en un entorno aislado llamado contenedor.

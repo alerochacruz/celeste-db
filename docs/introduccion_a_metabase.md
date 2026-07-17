@@ -1,5 +1,7 @@
 # Introducción a Metabase
 
+![Metabase](https://i.ibb.co/WWMTBrfr/banner-metabase.jpg)
+
 ### ¿Qué es Metabase?
 
 **Metabase** es una plataforma de *Business Intelligence (BI)* de código abierto que permite explorar, visualizar y analizar información almacenada en bases de datos mediante una interfaz web intuitiva. A través de consultas, reportes, indicadores (*KPIs*), gráficos, tablas y paneles (*dashboards*), facilita el acceso a la información y el seguimiento de métricas clave sin necesidad de desarrollar aplicaciones adicionales. Esto permite transformar los datos operativos en información útil para el análisis, la supervisión y la toma de decisiones.

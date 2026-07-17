@@ -1,5 +1,7 @@
 # M6: Facturación
 
+![Módulo de Facturación](https://i.ibb.co/4ZLKzmDc/banner-m6.jpg)
+
 Este módulo agrega facturación al ciclo operativo de Celeste. La factura nace a partir de una reserva confirmada, puede pagarse o cancelarse, y funciona como requisito comercial para que M5 permita el check-in.
 
 ## Tablas

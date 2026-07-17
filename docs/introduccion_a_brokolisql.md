@@ -1,5 +1,7 @@
 # Introducción a BrokoliSQL
 
+![BrokoliSQL](https://i.ibb.co/1GvJYPsc/banner-brokolisql.jpg)
+
 ## ¿Qué es BrokoliSQL?
 
 `brokolisql` es una herramienta de interfaz de línea de comandos (CLI) desarrollada originalmente en Python (y con variantes portadas a otros lenguajes como Go) diseñada como un convertidor universal de datos estructurados a instrucciones SQL.
